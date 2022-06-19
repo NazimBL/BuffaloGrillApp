@@ -1,8 +1,10 @@
 package com.example.buffalogrillapp;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -20,6 +22,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -27,6 +30,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.List;
+
+import static android.provider.Telephony.Carriers.PASSWORD;
+import static com.example.buffalogrillapp.MenuDataBase.TABLE_NAME;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -91,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         add_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Ajouter un produit necessite l'authorisation d'administrateur", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
                 AddItemDialog();
@@ -195,28 +203,90 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                try{
+                Menu menu=new Menu(0,product_name.getText().toString()
+                ,Menu.MENU_TABs[tab_position],
+                        product_duré.getText().toString(),
+                        product_mode.getText().toString(),
+                        Integer.parseInt(product_tmp.getText().toString()));
+
+                passwordDialog(menu);
+                alertDialog.dismiss();
+            }
+        });
+
+    }
+
+
+
+    public void passwordDialog(Menu menu){
+
+        LayoutInflater inflater = (LayoutInflater) getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+        View dialogView = inflater.inflate(R.layout.password_dialog_box, null);
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(inflater.getContext());
+
+        builder.setView(dialogView);
+
+        //builder.setTitle("Information Produit");
+        final EditText edit_pass=(EditText) dialogView.findViewById(R.id.edit_pass);
+        final Button button_pass=(Button) dialogView.findViewById(R.id.button_pass);
+
+        builder.setCancelable(true);
+
+        final AlertDialog alertDialog=builder.create();
+        alertDialog.show();
+
+        button_pass.setOnTouchListener(new View.OnTouchListener() {
+
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: {
+                        v.getBackground().setColorFilter(0xe0f47521, PorterDuff.Mode.SRC_ATOP);
+                        v.invalidate();
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP: {
+                        v.getBackground().clearColorFilter();
+                        v.invalidate();
+                        break;
+                    }
+                }
+                return false;
+            }
+        });
+
+        button_pass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String pass =edit_pass.getText().toString();
+
+                if(pass.equals(RVAdapter.PASSWORD)) {
+                    try{
 
                         ContentValues values=new ContentValues();
                         //if tab==1 , category = entrer etc..
                         //values.put(MenuDataBase.NAME,product_name.getText().toString());
-                        values.put(MenuDataBase.NAME,product_name.getText().toString());
+                        values.put(MenuDataBase.NAME,menu.getName());
                         values.put(MenuDataBase.CATEGORY, Menu.MENU_TABs[tab_position]);
 
-                        values.put(MenuDataBase.MODE,product_mode.getText().toString());
+                        values.put(MenuDataBase.MODE,menu.getMode_d_emploie());
                         //does the date get updated
-                        values.put(MenuDataBase.DURE_DE_VIE,product_duré.getText().toString());
-                        values.put(MenuDataBase.TEMPERATURE,Integer.parseInt(product_tmp.getText().toString()));
+                        values.put(MenuDataBase.DURE_DE_VIE,menu.getDuré_d_vie());
+                        values.put(MenuDataBase.TEMPERATURE,menu.getTemperature());
 
                         menu_db.insert(MenuDataBase.TABLE_NAME,null,values);
                         //add notify changes
+                        alertDialog.dismiss();
+                        Toast.makeText(MainActivity.this,"Nouveau Produit Ajouté !",Toast.LENGTH_LONG).show();
 
-                    alertDialog.dismiss();
+                    }catch (Exception e){
 
-                }catch (Exception e){
+                        Toast.makeText(MainActivity.this,"Wrong input format",Toast.LENGTH_SHORT).show();
+                    }
 
-                    Toast.makeText(MainActivity.this,"Wrong input format",Toast.LENGTH_SHORT).show();
-                }
+                }else Toast.makeText(MainActivity.this,"Wrong Password",Toast.LENGTH_LONG).show();
+                alertDialog.dismiss();
             }
         });
 
