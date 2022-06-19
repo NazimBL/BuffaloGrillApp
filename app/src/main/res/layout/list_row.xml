@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:orientation="horizontal">
 
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:divider="?android:attr/dividerHorizontal"
+    android:showDividers="middle"
+    android:layout_margin="4dp"
+    >
+    <TableRow>
 
     <TextView
         android:id="@+id/item_name"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
-        android:textSize="17dp"
+        android:textSize="10dp"
+        android:background="@drawable/table_layout"
         android:typeface="monospace"
         android:textAppearance="?attr/textAppearanceListItem" />
 
@@ -19,16 +23,19 @@
         android:id="@+id/item_duré"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="17dp"
+        android:textSize="10dp"
         android:typeface="monospace"
+        android:background="@drawable/table_layout"
+
         android:layout_margin="@dimen/text_margin"
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <TextView
         android:id="@+id/item_mode"
         android:layout_width="100dp"
-        android:textSize="17dp"
+        android:textSize="10dp"
         android:typeface="monospace"
+        android:background="@drawable/table_layout"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
         android:textAppearance="?attr/textAppearanceListItem" />
@@ -36,10 +43,16 @@
     <TextView
         android:id="@+id/item_temp"
         android:layout_width="wrap_content"
-        android:textSize="17dp"
+        android:textSize="10dp"
         android:typeface="monospace"
+        android:background="@drawable/table_layout"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
         android:textAppearance="?attr/textAppearanceListItem" />
 
-</LinearLayout>
+    </TableRow>
+    <View   android:id="@+id/firstDivider"
+        android:layout_height="2dp"
+        android:layout_width="fill_parent"
+        android:background="@color/design_default_color_secondary" />
+</TableLayout>
