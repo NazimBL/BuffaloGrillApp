@@ -23,6 +23,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 
 import static com.example.buffalogrillapp.MenuDataBase.TABLE_NAME;
 
@@ -67,7 +68,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ItemViewHolder> {
         holder.itemName.setText(mValues.get(position).getName()+"");
         holder.itemDuré.setText(mValues.get(position).getDuré_d_vie()+"");
         holder.itemMode.setText(mValues.get(position).getMode_d_emploie()+"");
-        holder.itemTmp.setText(mValues.get(position).getTemperature()+"");
+        holder.itemTmp.setText(mValues.get(position).getTemperature()+"C°");
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,10 +165,15 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ItemViewHolder> {
         //get number of days after J letter
         int n=Character.getNumericValue(input.charAt(2));
 
-        if(code==0) day=day+n;
+        if(code==0) day=day+n+1;
         else month=month+n;
 
-        return month+"-"+day+"-"+year;
+        String output=year+"-"+month+"-"+day;
+
+        DateTimeFormatter dtfInput = DateTimeFormatter.ofPattern("u-M-d", Locale.ENGLISH);
+        DateTimeFormatter dtfOutput = DateTimeFormatter.ofPattern("EEEE", Locale.ENGLISH);
+
+        return LocalDate.parse(output, dtfInput).format(dtfOutput)+":"+output;
     }
 
     public void infoDialog(List<Menu> menu, int position){
