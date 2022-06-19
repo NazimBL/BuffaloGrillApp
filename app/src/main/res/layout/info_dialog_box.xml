@@ -11,6 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Nom du Produit:"
+        android:textSize="17dp"
+        android:typeface="monospace"
         android:layout_marginBottom="2dp"
         />
 
@@ -19,7 +21,9 @@
         android:padding="5dp"
         android:layout_height="wrap_content"
         android:id="@+id/text_name"
-        android:background="@drawable/edit_border"
+        android:textSize="17dp"
+        android:typeface="monospace"
+        android:background="@color/design_default_color_secondary"
         android:layout_gravity="center"
         android:text=""
         android:layout_marginBottom="10dp"
@@ -28,6 +32,8 @@
     <TextView
         android:layout_width="300dp"
         android:padding="5dp"
+        android:textSize="17dp"
+        android:typeface="monospace"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Durée de Vie:"
@@ -40,13 +46,17 @@
         android:layout_height="wrap_content"
         android:id="@+id/text_duré"
         android:layout_gravity="center"
-        android:background="@drawable/edit_border"
+        android:textSize="17dp"
+        android:typeface="monospace"
+        android:background="@color/design_default_color_secondary"
         android:text=""
         android:layout_marginBottom="10dp"
         />
     <TextView
         android:layout_width="300dp"
         android:padding="5dp"
+        android:textSize="17dp"
+        android:typeface="monospace"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Mode d'utilisation:"
@@ -60,13 +70,17 @@
         android:id="@+id/text_mode"
         android:layout_gravity="center"
         android:text=""
-        android:background="@drawable/edit_border"
+        android:textSize="17dp"
+        android:typeface="monospace"
+        android:background="@color/design_default_color_secondary"
         android:layout_marginBottom="10dp"
         />
 
     <TextView
         android:layout_width="300dp"
         android:padding="5dp"
+        android:textSize="17dp"
+        android:typeface="monospace"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Temperature:"
@@ -80,7 +94,9 @@
         android:id="@+id/text_tmp"
         android:layout_gravity="center"
         android:text=""
-        android:background="@drawable/edit_border"
+        android:textSize="17dp"
+        android:typeface="monospace"
+        android:background="@color/design_default_color_secondary"
         android:layout_marginBottom="10dp"
         />
 
@@ -89,6 +105,8 @@
         android:padding="5dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:textSize="17dp"
+        android:typeface="monospace"
         android:textColor="#FF0000"
         android:text="Consomer Avant le:"
         android:layout_marginBottom="2dp"
@@ -99,10 +117,11 @@
         android:padding="5dp"
         android:layout_height="wrap_content"
         android:id="@+id/text_date"
+        android:typeface="monospace"
         android:layout_gravity="center"
         android:textSize="30dp"
         android:text="Date"
-        android:background="@drawable/edit_border"
+        android:background="@color/design_default_color_secondary"
         android:layout_marginBottom="10dp"
         />
     <LinearLayout
@@ -120,9 +139,8 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:text="Suprimer"
-            android:textColor="#000000"
+            android:background="@color/design_default_color_secondary"
             android:textSize="17dp"
-            android:textStyle="bold"
             android:typeface="monospace" />
         <Button
             android:layout_width="wrap_content"
@@ -130,24 +148,12 @@
             android:text="Ok"
             android:textSize="17dp"
             style="@style/Widget.AppCompat.Button"
-            android:textStyle="bold"
             android:typeface="monospace"
-            android:textColor="#000000"
+            android:background="@color/design_default_color_secondary"
             android:id="@+id/info_ok"
             android:layout_marginLeft="10dp"
             />
 
-        <Button
-            android:id="@+id/edit_info"
-            style="@style/Widget.AppCompat.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="Modifier"
-            android:textColor="#000000"
-            android:textSize="17dp"
-            android:textStyle="bold"
-            android:typeface="monospace" />
 
     </LinearLayout>
 

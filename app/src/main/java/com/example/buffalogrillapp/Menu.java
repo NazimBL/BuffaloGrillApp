@@ -12,19 +12,23 @@ public class Menu {
         private String name;
         private String category;
 
-        public Menu(){
-
-        }
-        public Menu(String name, String duré_d_vie, String mode_d_emploie, int temperature) {
-                this.name = name;
-                this.duré_d_vie = duré_d_vie;
-                this.mode_d_emploie = mode_d_emploie;
-                this.temperature = temperature;
-        }
-
         private String duré_d_vie;
         private String mode_d_emploie;
         private int temperature;
+
+
+        public Menu(){
+
+        }
+        public Menu(int id, String name, String category,String duré_d_vie, String mode_d_emploie, int temperature) {
+                this.name = name;
+                this.id=id;
+                this.duré_d_vie = duré_d_vie;
+                this.mode_d_emploie = mode_d_emploie;
+                this.category=category;
+                this.temperature = temperature;
+        }
+
 
         public int getId() {
             return id;

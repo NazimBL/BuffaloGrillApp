@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:id="@+id/about_dialog_box"
+    android:theme="@style/Theme.AppCompat.Dialog.Alert"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/print_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:typeface="monospace"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+        android:text="\u00A9 Deadline technologies"
+        android:textSize="20dp"></TextView>
+
+
+</LinearLayout>

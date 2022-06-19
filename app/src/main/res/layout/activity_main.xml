@@ -1,84 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/Theme.BuffaloGrillApp.AppBarOverlay">
+        android:outlineSpotShadowColor="@color/design_default_color_secondary"
+        android:theme="@style/Theme.AppCompat">
 
-        <TextView
-            android:id="@+id/title"
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:minHeight="?actionBarSize"
-            android:padding="@dimen/appbar_padding"
-            android:text="@string/app_name"
-            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
+            app:tabTextColor="@color/cardview_light_background"
+            app:tabIndicatorColor="@color/design_default_color_secondary"
+            android:outlineSpotShadowColor="@color/design_default_color_secondary"
+            android:layout_gravity="center_horizontal"
+            app:tabGravity="fill"
+            app:tabMode="scrollable" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabs"
-        android:layout_width="match_parent"
+
+    <AutoCompleteTextView
+
+        android:id="@+id/edcustfat"
+        android:layout_width="365dp"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary" />
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:completionThreshold="1"
+        android:drawableEnd="@android:drawable/ic_menu_search"
+        android:drawablePadding="5dp"
+        android:ems="10"
+        android:hint="Recherche"
+        android:inputType="textAutoComplete"
+        app:layout_anchorGravity="center">
+
+        <requestFocus />
+    </AutoCompleteTextView>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+        android:layout_width="wrap_content"
+        android:layout_height="530dp"
+        android:layout_gravity="center_vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
 
     </androidx.viewpager.widget.ViewPager>
 
-    <EditText
-        android:id="@+id/search_prod"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableRight="@android:drawable/ic_menu_search"
-        android:drawablePadding="5dp"
-        android:hint="Chercher Produit"
-        android:inputType="textAutoComplete"
-        app:layout_anchor="@+id/view_pager"
-        app:layout_anchorGravity="center">
-    </EditText>
-
-    <ImageView
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:src="@drawable/logo_buffalo_grill"
-        ></ImageView>
-
-    <TextView
-        android:id="@+id/print_textview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:text="New here ? "
-        android:textSize="20dp"></TextView>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            app:srcCompat="@android:drawable/ic_input_add" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab2"
-        android:layout_width="wrap_content"
-        android:layout_height="155dp"
-        android:layout_gravity="bottom"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_delete" />
-
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:contentDescription="@string/email_icon"
+        app:srcCompat="@android:drawable/ic_input_add" />
+</LinearLayout>

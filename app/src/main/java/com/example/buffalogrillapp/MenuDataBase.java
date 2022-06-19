@@ -65,6 +65,12 @@ public class MenuDataBase {
             return count;
         }
 
+    public void DeleteMenu(String name,SQLiteDatabase db, DBhelper helper){
+        db = helper.getWritableDatabase();
+        db.delete(TABLE_NAME, MenuDataBase.NAME+" = ?",new String[]{name});
+        db.close();
+    }
+
         public static Menu findMenu(String table,String column,String searchThis,DBhelper helper){
             String query = "Select * FROM " + table + " WHERE " + column
                     + " = \"" + searchThis + "\"";
