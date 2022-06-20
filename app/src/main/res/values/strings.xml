@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">BuffaloGrillApp</string>
+    <string name="app_name">BuffaloGrillApp
+
+    </string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
     <string name="primary_color">Primary color</string>
