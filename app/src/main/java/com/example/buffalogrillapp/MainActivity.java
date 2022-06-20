@@ -24,6 +24,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -35,6 +36,7 @@ import java.util.List;
 
 import static android.provider.Telephony.Carriers.PASSWORD;
 import static com.example.buffalogrillapp.MenuDataBase.TABLE_NAME;
+import static com.example.buffalogrillapp.RVAdapter.parseDuré;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -151,6 +153,29 @@ public class MainActivity extends AppCompatActivity {
                     android.R.layout.simple_dropdown_item_1line, mydata);
             //populate the list to the AutoCompleteTextView controls
             edcustfat.setAdapter(adapter);
+
+            edcustfat.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    menu_db = dbHelper.getWritableDatabase();
+
+                    cursor = menu_db.rawQuery("SELECT *FROM " + MenuDataBase.TABLE_NAME + "" +
+                            " WHERE " + MenuDataBase.NAME + "=?", new String[]{adapter.getItem(position)});
+
+                    cursor.moveToFirst();
+
+                    Menu menu=new Menu(0,
+                            cursor.getString(cursor.getColumnIndex(MenuDataBase.NAME)),
+                            Menu.MENU_TABs[tabLayout.getSelectedTabPosition()],
+                            cursor.getString(cursor.getColumnIndex(MenuDataBase.DURE_DE_VIE)),
+                            cursor.getString(cursor.getColumnIndex(MenuDataBase.MODE)),
+                            cursor.getInt(cursor.getColumnIndex(MenuDataBase.TEMPERATURE)));
+                    //... your stuff
+                    infoDialog(menu);
+
+                }
+            });
         } catch (Exception e) {
             Log.d("Nazim"," "+e.toString());
         }
@@ -210,8 +235,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
-
 
     public void passwordDialog(Menu menu){
 
@@ -286,6 +309,57 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+    public void infoDialog(Menu menu){
+
+        LayoutInflater inflater = (LayoutInflater) getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+        View dialogView = inflater.inflate(R.layout.info_dialog_box, null);
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(inflater.getContext());
+
+        builder.setView(dialogView);
+
+        builder.setTitle("Information Produit");
+        final TextView product_name=(TextView)dialogView.findViewById(R.id.text_name);
+        final TextView product_mode=(TextView)dialogView.findViewById(R.id.text_mode);
+        final TextView product_duré=(TextView)dialogView.findViewById(R.id.text_duré);
+        final TextView product_tmp=(TextView)dialogView.findViewById(R.id.text_tmp);
+
+        product_name.setText(menu.getName());
+        product_mode.setText(menu.getMode_d_emploie());
+        product_duré.setText(menu.getDuré_d_vie());
+        product_tmp.setText(""+menu.getTemperature());
+
+        final TextView date=(TextView)dialogView.findViewById(R.id.text_date);
+        String dateDbValue=menu.getDuré_d_vie();
+        date.setText(""+parseDuré(dateDbValue));
+
+        builder.setCancelable(true);
+
+        Button delete=(Button)dialogView.findViewById(R.id.suprimer_info);
+        Button ok=(Button)dialogView.findViewById(R.id.info_ok);
+
+        final AlertDialog alertDialog=builder.create();
+        alertDialog.show();
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                passwordDialog(menu);
+                alertDialog.dismiss();
+            }
+        });
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                alertDialog.dismiss();
+            }
+        });
+
+    }
+
 
     public void AboutDialog(){
 
