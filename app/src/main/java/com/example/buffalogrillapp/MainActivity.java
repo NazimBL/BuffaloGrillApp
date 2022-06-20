@@ -66,8 +66,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        ActionBar ab = getSupportActionBar();
+        ab.setIcon(R.drawable.app_icon);
 
 
 
@@ -92,19 +92,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton add_fab = findViewById(R.id.fab);
+
 
         UI_Init();
         //writeDummyDatabase();
-        add_fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Ajouter un produit necessite l'authorisation d'administrateur", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
 
-                AddItemDialog();
-            }
-        });
 
         edcustfat=(AutoCompleteTextView)findViewById(R.id.edcustfat);
         fatauto();
@@ -128,6 +120,9 @@ public class MainActivity extends AppCompatActivity {
                 // save profile changes
                 AboutDialog();
                 return true;
+            }
+            case R.id.action_add:{
+                AddItemDialog();
             }
             default:
                 return super.onOptionsItemSelected(item);

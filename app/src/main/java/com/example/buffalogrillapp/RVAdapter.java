@@ -70,7 +70,9 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ItemViewHolder> {
         holder.itemName.setText(mValues.get(position).getName()+"");
         holder.itemDuré.setText(mValues.get(position).getDuré_d_vie()+"");
         holder.itemMode.setText(mValues.get(position).getMode_d_emploie()+"");
-        holder.itemTmp.setText(mValues.get(position).getTemperature()+"C°");
+
+        if(mValues.get(position).getTemperature()==1000)holder.itemTmp.setText("Ambient");
+        else holder.itemTmp.setText(mValues.get(position).getTemperature()+"C°");
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

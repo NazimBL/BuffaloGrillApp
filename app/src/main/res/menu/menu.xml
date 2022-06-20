@@ -6,4 +6,13 @@
         android:orderInCategory="300"
         android:title="About"
         android:icon="@android:drawable/ic_dialog_info"></item>
+
+    <item
+        android:id="@+id/action_add"
+        android:orderInCategory="300"
+        android:title="Ajouter Prdouit"
+        android:contentDescription="@android:drawable/ic_input_add"
+        android:icon="@android:drawable/ic_input_add"></item>
+
+
 </menu>
