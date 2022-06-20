@@ -23,6 +23,7 @@ public class TabOneFragment extends Fragment {
     SQLiteDatabase menu_db;
     DBhelper dbHelper;
     Cursor cursor;
+    RVAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,7 +51,7 @@ public class TabOneFragment extends Fragment {
         menu_db=dbHelper.getReadableDatabase();
 
         try {
-            RVAdapter adapter = new RVAdapter(getListMenu(0),this.getActivity());
+            adapter = new RVAdapter(getListMenu(0),this.getActivity());
             recyclerview.setAdapter(adapter);
         }catch (NullPointerException e){
             Log.d("Nazim","null pointer");

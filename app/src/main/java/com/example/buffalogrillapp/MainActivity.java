@@ -1,8 +1,10 @@
 package com.example.buffalogrillapp;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -20,13 +22,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.List;
+
+import static android.provider.Telephony.Carriers.PASSWORD;
+import static com.example.buffalogrillapp.MenuDataBase.TABLE_NAME;
+import static com.example.buffalogrillapp.RVAdapter.parseDuré;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,9 +68,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
+        ActionBar ab = getSupportActionBar();
+        ab.setIcon(R.drawable.icon_bg);
+        ab.setDisplayShowHomeEnabled(true);
+        ab.setLogo(R.drawable.icon_bg);
 
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
@@ -84,22 +95,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton add_fab = findViewById(R.id.fab);
+
 
         UI_Init();
         //writeDummyDatabase();
-        add_fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
 
-                AddItemDialog();
-            }
-        });
 
         edcustfat=(AutoCompleteTextView)findViewById(R.id.edcustfat);
         fatauto();
+
+
     }
 
     @Override
@@ -120,6 +125,9 @@ public class MainActivity extends AppCompatActivity {
                 // save profile changes
                 AboutDialog();
                 return true;
+            }
+            case R.id.action_add:{
+                AddItemDialog();
             }
             default:
                 return super.onOptionsItemSelected(item);
@@ -148,6 +156,29 @@ public class MainActivity extends AppCompatActivity {
                     android.R.layout.simple_dropdown_item_1line, mydata);
             //populate the list to the AutoCompleteTextView controls
             edcustfat.setAdapter(adapter);
+
+            edcustfat.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    menu_db = dbHelper.getWritableDatabase();
+
+                    cursor = menu_db.rawQuery("SELECT *FROM " + MenuDataBase.TABLE_NAME + "" +
+                            " WHERE " + MenuDataBase.NAME + "=?", new String[]{adapter.getItem(position)});
+
+                    cursor.moveToFirst();
+
+                    Menu menu=new Menu(0,
+                            cursor.getString(cursor.getColumnIndex(MenuDataBase.NAME)),
+                            Menu.MENU_TABs[tabLayout.getSelectedTabPosition()],
+                            cursor.getString(cursor.getColumnIndex(MenuDataBase.DURE_DE_VIE)),
+                            cursor.getString(cursor.getColumnIndex(MenuDataBase.MODE)),
+                            cursor.getInt(cursor.getColumnIndex(MenuDataBase.TEMPERATURE)));
+                    //... your stuff
+                    infoDialog(menu);
+
+                }
+            });
         } catch (Exception e) {
             Log.d("Nazim"," "+e.toString());
         }
@@ -195,32 +226,143 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                try{
+                Menu menu=new Menu(0,product_name.getText().toString()
+                ,Menu.MENU_TABs[tab_position],
+                        product_duré.getText().toString(),
+                        product_mode.getText().toString(),
+                        Integer.parseInt(product_tmp.getText().toString()));
 
-                        ContentValues values=new ContentValues();
-                        //if tab==1 , category = entrer etc..
-                        //values.put(MenuDataBase.NAME,product_name.getText().toString());
-                        values.put(MenuDataBase.NAME,product_name.getText().toString());
-                        values.put(MenuDataBase.CATEGORY, Menu.MENU_TABs[tab_position]);
-
-                        values.put(MenuDataBase.MODE,product_mode.getText().toString());
-                        //does the date get updated
-                        values.put(MenuDataBase.DURE_DE_VIE,product_duré.getText().toString());
-                        values.put(MenuDataBase.TEMPERATURE,Integer.parseInt(product_tmp.getText().toString()));
-
-                        menu_db.insert(MenuDataBase.TABLE_NAME,null,values);
-                        //add notify changes
-
-                    alertDialog.dismiss();
-
-                }catch (Exception e){
-
-                    Toast.makeText(MainActivity.this,"Wrong input format",Toast.LENGTH_SHORT).show();
-                }
+                passwordDialog(menu);
+                alertDialog.dismiss();
             }
         });
 
     }
+
+    public void passwordDialog(Menu menu){
+
+        LayoutInflater inflater = (LayoutInflater) getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+        View dialogView = inflater.inflate(R.layout.password_dialog_box, null);
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(inflater.getContext());
+
+        builder.setView(dialogView);
+
+        //builder.setTitle("Information Produit");
+        final EditText edit_pass=(EditText) dialogView.findViewById(R.id.edit_pass);
+        final Button button_pass=(Button) dialogView.findViewById(R.id.button_pass);
+
+        builder.setCancelable(true);
+
+        final AlertDialog alertDialog=builder.create();
+        alertDialog.show();
+
+        button_pass.setOnTouchListener(new View.OnTouchListener() {
+
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: {
+                        v.getBackground().setColorFilter(0xe0f47521, PorterDuff.Mode.SRC_ATOP);
+                        v.invalidate();
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP: {
+                        v.getBackground().clearColorFilter();
+                        v.invalidate();
+                        break;
+                    }
+                }
+                return false;
+            }
+        });
+
+        button_pass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String pass =edit_pass.getText().toString();
+
+                if(pass.equals(RVAdapter.PASSWORD)) {
+                    try{
+
+                        ContentValues values=new ContentValues();
+                        //if tab==1 , category = entrer etc..
+                        //values.put(MenuDataBase.NAME,product_name.getText().toString());
+                        values.put(MenuDataBase.NAME,menu.getName());
+                        values.put(MenuDataBase.CATEGORY, Menu.MENU_TABs[tab_position]);
+
+                        values.put(MenuDataBase.MODE,menu.getMode_d_emploie());
+                        //does the date get updated
+                        values.put(MenuDataBase.DURE_DE_VIE,menu.getDuré_d_vie());
+                        values.put(MenuDataBase.TEMPERATURE,menu.getTemperature());
+
+                        menu_db.insert(MenuDataBase.TABLE_NAME,null,values);
+                        //add notify changes
+                        alertDialog.dismiss();
+                        Toast.makeText(MainActivity.this,"Nouveau Produit Ajouté !",Toast.LENGTH_LONG).show();
+
+                    }catch (Exception e){
+
+                        Toast.makeText(MainActivity.this,"Wrong input format",Toast.LENGTH_SHORT).show();
+                    }
+
+                }else Toast.makeText(MainActivity.this,"Wrong Password",Toast.LENGTH_LONG).show();
+                alertDialog.dismiss();
+            }
+        });
+
+    }
+
+    public void infoDialog(Menu menu){
+
+        LayoutInflater inflater = (LayoutInflater) getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+        View dialogView = inflater.inflate(R.layout.info_dialog_box, null);
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(inflater.getContext());
+
+        builder.setView(dialogView);
+
+        builder.setTitle("Information Produit");
+        final TextView product_name=(TextView)dialogView.findViewById(R.id.text_name);
+        final TextView product_mode=(TextView)dialogView.findViewById(R.id.text_mode);
+        final TextView product_duré=(TextView)dialogView.findViewById(R.id.text_duré);
+        final TextView product_tmp=(TextView)dialogView.findViewById(R.id.text_tmp);
+
+        product_name.setText(menu.getName());
+        product_mode.setText(menu.getMode_d_emploie());
+        product_duré.setText(menu.getDuré_d_vie());
+        product_tmp.setText(""+menu.getTemperature());
+
+        final TextView date=(TextView)dialogView.findViewById(R.id.text_date);
+        String dateDbValue=menu.getDuré_d_vie();
+        date.setText(""+parseDuré(dateDbValue));
+
+        builder.setCancelable(true);
+
+        Button delete=(Button)dialogView.findViewById(R.id.suprimer_info);
+        Button ok=(Button)dialogView.findViewById(R.id.info_ok);
+
+        final AlertDialog alertDialog=builder.create();
+        alertDialog.show();
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                passwordDialog(menu);
+                alertDialog.dismiss();
+            }
+        });
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                alertDialog.dismiss();
+            }
+        });
+
+    }
+
 
     public void AboutDialog(){
 

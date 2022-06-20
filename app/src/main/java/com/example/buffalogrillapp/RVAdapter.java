@@ -31,7 +31,7 @@ import static com.example.buffalogrillapp.MenuDataBase.TABLE_NAME;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ItemViewHolder> {
 
-    private final static String PASSWORD="DEADLINE";
+    public final static String PASSWORD="DEADLINE";
     private final List<Menu> mValues;
     private Context context;
 
@@ -70,7 +70,9 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ItemViewHolder> {
         holder.itemName.setText(mValues.get(position).getName()+"");
         holder.itemDuré.setText(mValues.get(position).getDuré_d_vie()+"");
         holder.itemMode.setText(mValues.get(position).getMode_d_emploie()+"");
-        holder.itemTmp.setText(mValues.get(position).getTemperature()+"C°");
+
+        if(mValues.get(position).getTemperature()==1000)holder.itemTmp.setText("Ambient");
+        else holder.itemTmp.setText(mValues.get(position).getTemperature()+"C°");
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,8 +193,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ItemViewHolder> {
 
         String output=year+"-"+month+"-"+day;
 
-        DateTimeFormatter dtfInput = DateTimeFormatter.ofPattern("u-M-d", Locale.ENGLISH);
-        DateTimeFormatter dtfOutput = DateTimeFormatter.ofPattern("EEEE", Locale.ENGLISH);
+        DateTimeFormatter dtfInput = DateTimeFormatter.ofPattern("u-M-d", Locale.FRANCE);
+        DateTimeFormatter dtfOutput = DateTimeFormatter.ofPattern("EEEE", Locale.FRANCE);
 
         return LocalDate.parse(output, dtfInput).format(dtfOutput)+":"+output;
     }
