@@ -69,8 +69,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         ActionBar ab = getSupportActionBar();
-        ab.setIcon(R.drawable.app_icon);
-
+        ab.setIcon(R.drawable.icon_bg);
+        ab.setDisplayShowHomeEnabled(true);
+        ab.setLogo(R.drawable.icon_bg);
 
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
@@ -102,6 +103,8 @@ public class MainActivity extends AppCompatActivity {
 
         edcustfat=(AutoCompleteTextView)findViewById(R.id.edcustfat);
         fatauto();
+
+
     }
 
     @Override
