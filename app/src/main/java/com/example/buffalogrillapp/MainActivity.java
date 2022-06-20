@@ -69,9 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         ActionBar ab = getSupportActionBar();
-        ab.setIcon(R.drawable.icon_bg);
         ab.setDisplayShowHomeEnabled(true);
-        ab.setLogo(R.drawable.icon_bg);
 
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
@@ -176,6 +174,8 @@ public class MainActivity extends AppCompatActivity {
                             cursor.getInt(cursor.getColumnIndex(MenuDataBase.TEMPERATURE)));
                     //... your stuff
                     infoDialog(menu);
+                    edcustfat.clearListSelection();
+                    edcustfat.setText("");
 
                 }
             });
@@ -331,7 +331,9 @@ public class MainActivity extends AppCompatActivity {
         product_name.setText(menu.getName());
         product_mode.setText(menu.getMode_d_emploie());
         product_duré.setText(menu.getDuré_d_vie());
-        product_tmp.setText(""+menu.getTemperature());
+
+        if(menu.getTemperature()==1000)product_tmp.setText("Ambient");
+        else product_tmp.setText(""+menu.getTemperature());
 
         final TextView date=(TextView)dialogView.findViewById(R.id.text_date);
         String dateDbValue=menu.getDuré_d_vie();

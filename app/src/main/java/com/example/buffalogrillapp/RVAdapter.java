@@ -217,7 +217,9 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ItemViewHolder> {
         product_name.setText(menu.get(position).getName());
         product_mode.setText(menu.get(position).getMode_d_emploie());
         product_duré.setText(menu.get(position).getDuré_d_vie());
-        product_tmp.setText(""+menu.get(position).getTemperature());
+
+        if(menu.get(position).getTemperature()==1000)product_tmp.setText("Ambient");
+        else product_tmp.setText(""+menu.get(position).getTemperature());
 
         final TextView date=(TextView)dialogView.findViewById(R.id.text_date);
         String dateDbValue=menu.get(position).getDuré_d_vie();
