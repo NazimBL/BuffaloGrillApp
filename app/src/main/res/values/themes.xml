@@ -13,6 +13,14 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="Theme.MyAppTheme" parent="@android:style/Theme.Holo">
+        <item name="android:actionBarStyle">@style/Theme.MyAppTheme.ActionBar</item>
+    </style>
+
+    <style name="Theme.MyAppTheme.ActionBar" parent="@android:style/Widget.Holo.ActionBar">
+        <item name="android:background">@drawable/logo_ab</item>
+    </style>
+
     <style name="Theme.BuffaloGrillApp.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

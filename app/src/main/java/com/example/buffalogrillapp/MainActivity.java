@@ -66,11 +66,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        ActionBar ab = getSupportActionBar();
-        ab.setDisplayShowHomeEnabled(true);
-
+        // calling this activity's function to
+        // use ActionBar utility methods
+        ActionBar actionBar = getSupportActionBar();
+        // adding icon in the ActionBar
+        actionBar.setIcon(R.drawable.logo_ab);
+        // methods to display the icon in the ActionBar
+        actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         setupViewPager(viewPager);
