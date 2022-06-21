@@ -93,16 +93,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
         UI_Init();
         //writeDummyDatabase();
-
-
         edcustfat=(AutoCompleteTextView)findViewById(R.id.edcustfat);
         fatauto();
-
-
     }
 
     @Override
@@ -226,14 +220,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Menu menu=new Menu(0,product_name.getText().toString()
-                ,Menu.MENU_TABs[tab_position],
-                        product_duré.getText().toString(),
-                        product_mode.getText().toString(),
-                        Integer.parseInt(product_tmp.getText().toString()));
+                try {
 
-                passwordDialog(menu);
-                alertDialog.dismiss();
+                    Menu menu = new Menu(0, product_name.getText().toString()
+                            , Menu.MENU_TABs[tab_position],
+                            product_duré.getText().toString(),
+                            product_mode.getText().toString(),
+                            Integer.parseInt(product_tmp.getText().toString()));
+
+                    passwordDialog(menu);
+                    alertDialog.dismiss();
+
+                }catch (Exception e){
+                    Toast.makeText(MainActivity.this,"Wrong Input Format",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
